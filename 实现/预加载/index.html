@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- https://blog.csdn.net/adley_app/article/details/102950695 -->
+    <title>Document</title>
+    <!-- <script src="./pre.js"></script> -->
+    <style>
+        .btn {
+            width: 200px;
+            height: 200px;
+        }
+
+        .smallImg {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 0px;
+        }
+
+        .bigImg {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 2000px;
+        }
+    </style>
+</head>
+
+<body>
+    <img onclick="toPage()" class="smallImg"
+        src="https://yun.duiba.com.cn/spark/assets/a34aab611c43b0626b3491105e463ba20178296e.png" />
+    <!-- <button class="btn" onclick="toPage()"></button> -->
+    <img class="bigImg" />
+
+    <script type="module">
+        //引入刚刚写加载的方法
+        import {
+            allImgPreloader
+        } from './pre.js'
+
+       import {imgList} from './imgList.js'
+
+       import { RES_PATH } from "./utils.js";
+
+       console.log("RES_PATH--",RES_PATH)
+
+       let imgs = imgList.map(v => RES_PATH + v);
+
+        console.log('开始渲染---渲染中。。。')
+        const res = allImgPreloader(imgs)
+        res.then(val => {
+            console.log('渲染成功')
+            console.log(23, val) //['图片加载成功', '图片加载成功']
+            
+        })
+    
+    </script>
+    <script>
+        function toPage() {
+            location.href = "newPage.html"
+            let a = document.getElementsByClassName("bigImg")[0]
+            a.src = "https://yun.duiba.com.cn/spark/assets/a34aab611c43b0626b3491105e463ba20178296e.png"
+        }
+    </script>
+</body>
+
+</html>

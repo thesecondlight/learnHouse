@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Promise</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <!-- promise状态不可逆转
+            pending
+            fulfilled
+            rejected
+    -->
+    <script>
+        let isForget = true;
+        let makeAPromise = new Promise((resolve, reject) => {
+            if (isForget) {
+                let result = {
+                    name: "channel",
+                    price: "120000"
+                }
+                resolve(result);
+            } else {
+                let err = new Error("没钱");
+                reject(err);
+            }
+        })
+        let bugLip = function (lv) {
+            let lips = {
+                name: "tf",
+                price: "470"
+            }
+            let msg = {
+                message: "我买了什么？" + lips.name + " " + lv.name,
+                lv: lv,
+                lips: lips
+
+            }
+            return Promise.resolve(msg)
+        }
+        let goBug = function () {
+            // fulfilled rejected
+            makeAPromise.then((ful) => {
+                    console.log(ful);
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
+        }
+        // goBug();
+
+        let gift = function () {
+            makeAPromise
+                .then(bugLip)
+                .then((ful) => {
+                    console.log('[ ful ] >', ful)
+                })
+                .catch((err) => {
+                    console.log('[ 失败了 ] >')
+                })
+        }
+        gift();
+    </script>
+</body>
+
+</html>

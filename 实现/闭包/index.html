@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+        function fun() {
+            let num = 10;
+
+            function littleFun() {
+                console.log('[ num ] >', num) //就是个closure
+                console.log('[ 单纯的打印 ] >') //local this:window
+                debugger
+            }
+            littleFun();
+        }
+        fun();
+    </script>
+</body>
+
+</html>

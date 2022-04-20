@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <text>
+        Promise是一种异步编程的解决方案，比回调更合理
+        在es6将Promise写为了一种语言标准，统一了用法，原生提供了这个对象
+        它有三种状态，pending fulfilled rejected 只有异步操作才能影响这三种状态 状态不可逆
+        Promise中保存了未来才会结束的事件的结果
+        缺点，
+        一旦发生 不可取消
+        如果不设置回调，内部抛出的错误不会反映到外面
+        当处于pending时，无法得知目前处于哪个阶段
+    </text>
+    <script>
+        let flag=true
+        let newPromise = new Promise((resolve, reject) => {
+            if (flag) {
+                resolve(flag)
+            }
+            else{
+                let error=new Error("hihihi")
+                reject(error)
+            }
+        })
+        newPromise.then((fulfilled)=>
+            console.log('[ fulfilled ] >', fulfilled)
+        )
+    </script>
+</body>
+
+</html>

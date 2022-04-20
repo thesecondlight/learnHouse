@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>防抖节流</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <input>请输入</input>
+    <div class="box"></div>
+    <script>
+        let inputNode = document.querySelector("input");
+        // inputNode.addEventListener("input", queryData); //没做防抖 每次input都会请求
+        // function queryData() {
+        //     console.log('[ 发起请求 ] >');
+        // }
+
+        inputNode.addEventListener("input", _debounce(queryData, 2000));
+
+        function queryData() {
+            console.log('[ 发起请求 ] >');
+        }
+        // 防抖 场景：接口请求
+        function _debounce(fun, time) {
+            let timer;
+            return () => { //这就是一个闭包
+                clearTimeout(timer)
+                timer = setTimeout(() => {
+                    fun.apply(this, arguments)
+                }, time)
+            }
+
+        }
+
+
+        let box = document.querySelector(".box");
+        // box.addEventListener("touchmove",queryData);
+        box.addEventListener("touchmove", _throttle(queryData, 2000))
+        // 节流 场景：提交表单
+        function _throttle(fun, time = 2000) {
+            let lasttime, timer;
+            return () => {
+                let now = +new Date(); //加个+好，转为number == Number(new Date())
+                // console.log('[ now,lasttime+time ] >', now,lasttime+time)
+                if (lasttime && now < lasttime + time) {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => {
+                        lasttime = now; //last12 下一次now16 >1+2 进入else
+                    }, time);
+                } else {
+                    lasttime = now;
+                    fun.apply(this, arguments);
+                }
+            }
+        }
+
+        function _throttle2(fun, time) {
+            let flag = false;
+            return () => {
+                if (!flag) {
+                    flag = true;
+                    setTimeout(() => {
+                        fun.apply(this, arguments)
+                        flag = false;
+                    }, time)
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

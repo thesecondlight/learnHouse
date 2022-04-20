@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>深拷贝 浅拷贝</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <script>
+        // 基本数据类型
+        // 赋值
+        let a = 1;
+        let b = a;
+        b = 3;
+        console.log('[ a,b ] >', a, b); // 1,3
+
+        // 浅拷贝
+        // let arr=[1,2,3];
+        // let newArr=arr;
+        // newArr.push(4);
+        // console.log('[ arr,newArr ] >', arr,newArr);//[1,2,3,4],[1,2,3,4]
+
+        // 解构赋值
+        // 只针对一维数组 对象是深拷贝，多维就是浅拷贝
+        let arr = [1, 2, 3];
+        let newArr = [...arr];
+        newArr.push(4);
+        console.log('[ arr,newArr ] >', arr, newArr); //[1,2,3],[1,2,3,4]
+
+        // 深拷贝  ==>方法（function）转不了
+        // JSON.parse(JSON.stringify(obj));
+        let objArr = [{
+            key1: "value1"
+        }, {
+            key2: "value2"
+        }, {
+            key3: "value3"
+        }];
+        let newObjArr = JSON.parse(JSON.stringify(objArr));
+        newObjArr.push({
+            key11: "value11"
+        });
+        console.log('[ objArr,newObjArr ] >', objArr, newObjArr); //互相不影响
+
+        // 实现深拷贝
+        // 1.看是基本数据类型还是引用数据类型 基本数据类型直接return
+        // 2.看是数组还是对象
+        let obj = {
+            name: "lily",
+            age: 13,
+            study: function () {
+                console.log('[ study-- ] >');
+            }
+        }
+
+        function deepClone(source) {
+            if (typeof source !== "object") {
+                return source
+            }
+            let targetOut;
+            targetOut = source.constructor === Array ? [] : {};
+            for (let key in source) {
+                if (source.hasOwnProperty(key)) {
+                    // 维护代码
+                    targetOut[key] = source[key].constructor === Array ? [] : {};
+                    targetOut[key] = deepClone(source[key])
+                }
+            }
+            return targetOut;
+        }
+        // 代码分层 
+        // 执行 维护 容错
+    </script>
+    <script>
+        //再写
+        function AdeepClone(source) {
+            if(source == null){
+                return source
+            }
+            if(source instanceof Date){
+                return new Date(source)
+            }
+            if(source instanceof RegExp){
+                return new RegExp(source)
+            }
+            if (typeof source !== "object") {
+                return source
+            }
+            let targetOut = source.constructor === Array ? [] : {};
+            for (let key in source) {
+                targetOut[key] = AdeepClone(source[key])
+            }
+            return targetOut
+        }
+        function deepClone1(source){
+            if(source==null){
+                return source
+            }
+            if(source instanceof Date){
+                return new Date(source)
+            }
+            if(typeof source!=="object"){
+                return source
+            }
+            
+            let targetOut=source.constructor==Array?[]:{};
+            for(let key in source){
+                targetOut[key]=deepClone(source[key]) 
+            }
+        }
+    </script>
+</body>
+
+</html>
